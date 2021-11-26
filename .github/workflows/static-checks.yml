@@ -1,0 +1,40 @@
+name: Static checks
+description: |
+  Perform type-checking, format checking, and linting.
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: pip cacheing
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{runner.os}}-pip-${{ hashFiles(**/poetry.lock) }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install Python dependencies
+        run: |
+          python -m pip install poetry
+          poetry install
+      - name: Check formatting
+        run: black veracode_to_sqlite/ tests/
+      - name: Lint
+        run: flake8 --max-line-length=88 veracode_to_sqlite/ tests/
+      - name: Typecheck
+        run: mypy --strict veracode_to_sqlite/ tests/
+
