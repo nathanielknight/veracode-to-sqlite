@@ -1,3 +1,4 @@
+"CLI interface for Veracode-to-SQLite conversion."
 import argparse
 import json
 import pathlib
@@ -27,10 +28,10 @@ def main() -> None:
     args = parser.parse_args()
 
     cxn = sqlite3.connect(args.db)
-    db = database.Database(cxn)
+    outputdb = database.Database(cxn)
     rawscan = json.load(args.file)
     scan = model.Scan.parse(rawscan)
-    db.save(scan)
+    outputdb.save(scan)
 
 
 if __name__ == "__main__":

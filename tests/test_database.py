@@ -15,7 +15,7 @@ def test_db_save() -> None:
     "Test loading a sample scan"
     # Load sample scan from test directory
     sample_scan_path = pathlib.Path(__file__).parent / "sample_results.json"
-    with sample_scan_path.open() as inf:
+    with sample_scan_path.open(encoding="utf8") as inf:
         sample_scan = json.load(inf)
     scan = model.Scan.parse(sample_scan)
 
