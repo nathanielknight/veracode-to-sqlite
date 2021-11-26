@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  setup:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo
@@ -30,7 +30,7 @@ jobs:
           python -m pip install poetry
           poetry install
       - name: Check formatting
-        run: poetry run black veracode_to_sqlite/ tests/
+        run: poetry run black veracode_to_sqlite/ tests/ --check
       - name: Lint
         run: poetry run flake8 --max-line-length=88 veracode_to_sqlite/ tests/
       - name: Typecheck
