@@ -10,7 +10,7 @@ class Database:
         self._cxn = cxn
         self._init_db()
 
-    def _init_db(self):
+    def _init_db(self) -> None:
         "Create tables to store scan results."
         self._cxn.execute(
             "CREATE TABLE IF NOT EXISTS metadata (key TEXT NOT NULL, value TEXT)"
@@ -34,7 +34,7 @@ class Database:
         """
         )
 
-    def _save_finding(self, finding: model.Finding):
+    def _save_finding(self, finding: model.Finding) -> None:
         self._cxn.execute(
             "INSERT INTO findings VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             dataclasses.astuple(finding),

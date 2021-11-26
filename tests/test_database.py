@@ -4,18 +4,15 @@ import sqlite3
 
 from veracode_to_sqlite import model, database
 
-SAMPLE_SCAN_PATH = pathlib.Path(__file__).parent / "sample_results.json"
-with SAMPLE_SCAN_PATH.open() as inf:
-    SAMPLE_SCAN = json.load(inf)
-scan = model.Scan.parse(SAMPLE_SCAN)
 
-
-def test_db_init():
+def test_db_init() -> None:
+    "Test database initialization"
     inmemory_db = sqlite3.connect(":memory:")
     database.Database(inmemory_db)
 
 
-def test_db_save():
+def test_db_save() -> None:
+    "Test loading a sample scan"
     # Load sample scan from test directory
     sample_scan_path = pathlib.Path(__file__).parent / "sample_results.json"
     with sample_scan_path.open() as inf:
