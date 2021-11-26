@@ -41,19 +41,20 @@ class Database:
         )
 
     def save(self, scan: model.Scan) -> None:
-        for finding in scan.findings:
-            self._save_finding(finding)
+        with self._cxn:
+            for finding in scan.findings:
+                self._save_finding(finding)
 
-        self._cxn.executemany(
-            "INSERT INTO modules (name) VALUES (?)", ((m,) for m in scan.modules)
-        )
+            self._cxn.executemany(
+                "INSERT INTO modules (name) VALUES (?)", ((m,) for m in scan.modules)
+            )
 
-        skip_fields = ("modules", "findings")
-        metadata = [
-            (key, val)
-            for key, val in dataclasses.asdict(scan).items()
-            if key not in skip_fields
-        ]
-        self._cxn.executemany(
-            "INSERT INTO metadata (key, value) VALUES (?, ?)", metadata
-        )
+            skip_fields = ("modules", "findings")
+            metadata = [
+                (key, val)
+                for key, val in dataclasses.asdict(scan).items()
+                if key not in skip_fields
+            ]
+            self._cxn.executemany(
+                "INSERT INTO metadata (key, value) VALUES (?, ?)", metadata
+            )
