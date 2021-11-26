@@ -1,6 +1,4 @@
 name: Static checks
-description: |
-  Perform type-checking, format checking, and linting.
 
 on:
   push:
@@ -24,7 +22,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
-          key: ${{runner.os}}-pip-${{ hashFiles(**/poetry.lock) }}
+          key: ${{runner.os}}-pip-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       - name: Install Python dependencies
