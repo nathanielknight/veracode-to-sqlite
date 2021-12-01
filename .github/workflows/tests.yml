@@ -16,12 +16,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - uses: actions/cache@v2
-        name: Configure pip caching
+        name: Configure poetry caching
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
+          path: ~/.cache/poetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/setup.py') }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-poetry-
       - name: Install Python dependencies
         run: |
           python -m pip install poetry
